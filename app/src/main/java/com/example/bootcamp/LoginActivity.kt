@@ -4,10 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.predmephiteam.upcycling.databinding.ActivityLoginBinding
+import com.example.bootcamp.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity(){
     private lateinit var binding: ActivityLoginBinding

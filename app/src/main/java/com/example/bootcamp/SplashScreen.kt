@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
-import com.predmephiteam.upcycling.databinding.ActivitySplashScreenBinding
+import com.example.bootcamp.databinding.ActivitySplashScreenBinding
 
 class SplashScreen : AppCompatActivity() {
     private lateinit var binding: ActivitySplashScreenBinding
