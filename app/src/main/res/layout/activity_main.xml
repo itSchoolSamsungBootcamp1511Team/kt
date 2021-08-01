@@ -27,6 +27,7 @@
         android:elevation="10dp"
         app:itemTextColor="@color/white"
         app:itemIconTint="@color/white"
+        app:itemBackground="@drawable/bottom_bar_item_style"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
