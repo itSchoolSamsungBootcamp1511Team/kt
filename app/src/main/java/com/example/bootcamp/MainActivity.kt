@@ -1,14 +1,20 @@
 package com.example.bootcamp
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.database.DatabaseReference
+import com.example.bootcamp.authUser.AuthUser
+import com.example.bootcamp.dataClasses.User
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,10 +23,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-        val mDatabase : DatabaseReference = FirebaseDatabase.getInstance().getReference()
-
-        mDatabase.child("test").setValue("GRISHA")
-
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -28,5 +30,51 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
+        // заполнение AuthUser
+        var myId = intent.getIntExtra("UserId", 0);
+        var now = AuthUser.getInstance()
+        if (myId == -1 && now == null) {
+            Toast.makeText(applicationContext, "Что-то пошло не так!", Toast.LENGTH_LONG).show();
+            this.finish();
+        }
+        if (now == null) {
+            val myBase = FirebaseDatabase.getInstance().getReference();
+            myBase.child("users").child(myId.toString()).addValueEventListener(object: ValueEventListener{
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var postsID = ArrayList<Int>()
+                    for (snap in dataSnapshot.child("posts").children) {
+                        postsID.add(snap.getValue().toString().toInt());
+                    }
+
+                    var likesID = ArrayList<Int>()
+                    for (snap in dataSnapshot.child("likes").children) {
+                        likesID.add(snap.getValue().toString().toInt());
+                    }
+
+                    var commentsID = ArrayList<Int>()
+                    for (snap in dataSnapshot.child("comments").children) {
+                        commentsID.add(snap.getValue().toString().toInt());
+                    }
+
+                    val curUser = User(dataSnapshot.child("name").getValue().toString(),
+                                dataSnapshot.child("surname").getValue().toString(),
+                                dataSnapshot.child("avatar").getValue().toString(),
+                                dataSnapshot.child("status").getValue().toString(),
+                                myId, postsID, likesID, commentsID)
+                    AuthUser.setUser228(curUser)
+                }
+
+            })
+        }
+
+        Toast.makeText(applicationContext, AuthUser.getInstance().toString(), Toast.LENGTH_LONG).show();
     }
+
+
 }
