@@ -1,23 +1,31 @@
 package com.example.bootcamp.ui.map
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDialogFragment
+import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.example.bootcamp.MainActivity
+
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
+
 import com.example.bootcamp.R
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.FirebaseApp
+
+
+import kotlinx.android.synthetic.main.fragment_map.*;
+import kotlinx.coroutines.runBlocking
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
-
     private lateinit var mMap: GoogleMap
+    /**  Pair<Name,Coordinates> **/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -30,12 +38,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         return view
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
+    override fun onStart() {
+        super.onStart()
+
+        var test : FirebasePoint = FirebasePoint()
+        test.addNewPoint()
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) = runBlocking{
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+
+        //launch
+        launch {
+            mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 }
