@@ -1,8 +1,4 @@
-package com.example.bootcamp.authUser
-
-import android.content.SharedPreferences
-import android.util.Log
-import com.example.bootcamp.dataClasses.User
+package com.example.bootcamp.dataClasses
 
 class AuthUser(){
     companion object {
