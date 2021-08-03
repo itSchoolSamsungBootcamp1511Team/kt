@@ -15,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bootcamp.R
 import com.example.bootcamp.currentUser
 import com.example.bootcamp.databinding.Viewpager2FeedBinding
-import com.example.bootcamp.listPosts
-import com.example.bootcamp.models.Post
-import com.example.bootcamp.models.User
+
 
 const val ARG_OBJECT = "FeedList"
 
@@ -34,18 +32,18 @@ class FeedListFragment: Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
-            val feed = view.findViewById<RecyclerView>(R.id.feed)
-            val tabTitle = getString(ARG_OBJECT)
-            var adapter = FeedListAdapter(listPosts, view.context as Activity)
-            if (tabTitle == TAB_TITLES[1]){
-                adapter = FeedListAdapter(User.likedPosts, view.context as Activity)
-            }
-            feed.layoutManager = LinearLayoutManager(view.context)
-            feed.adapter = adapter
-        }
-    }
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
+//            val feed = view.findViewById<RecyclerView>(R.id.feed)
+//            val tabTitle = getString(ARG_OBJECT)
+//            var adapter = FeedListAdapter(listPosts, view.context as Activity)
+//            if (tabTitle == TAB_TITLES[1]){
+//                adapter = FeedListAdapter(User.likedPosts, view.context as Activity)
+//            }
+//            feed.layoutManager = LinearLayoutManager(view.context)
+//            feed.adapter = adapter
+//        }
+//    }
 
     fun setBinding(activity: Activity){
         binding = Viewpager2FeedBinding.inflate(activity.layoutInflater)

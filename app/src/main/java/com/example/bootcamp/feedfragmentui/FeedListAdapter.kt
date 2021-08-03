@@ -8,10 +8,11 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bootcamp.R
 import com.example.bootcamp.currentUser
+import com.example.bootcamp.dataClasses.AuthUser
 import com.example.bootcamp.databinding.LayoutFeedItemBinding
-import com.example.bootcamp.models.Post
-import com.example.bootcamp.models.User
 
+
+/*
 class FeedListAdapter(
     val list: MutableList<Post>,
     val activity: Activity,
@@ -28,26 +29,26 @@ class FeedListAdapter(
             binding.comments.setOnClickListener { Toast.makeText(activity, "Comments in develop", Toast.LENGTH_SHORT).show() }
             binding.moreAction.setOnClickListener { Toast.makeText(activity, "More Action in develop", Toast.LENGTH_SHORT).show() }
             binding.like.setOnClickListener {
-                if (post.postId in currentUser.likedPostsId) {
+                if (post.postId in AuthUser.getInstance()!!.likedPosts) {
                     binding.like.setImageResource(R.drawable.ic_icon_like_dontliked)
-                    currentUser.likedPostsId.remove(post.postId)
+                    AuthUser.getInstance()!!.likedPosts.remove(post.postId)
                     User.likedPosts.remove(post)
                 } else {
                     binding.like.setImageResource(R.drawable.ic_icon_like_liked)
-                    currentUser.likedPostsId.add(post.postId)
+                    AuthUser.getInstance()!!.likedPosts.add(post.postId)
                     User.likedPosts.add(post)
                 }
                 fragmentList[0].getBinding().feed.adapter?.notifyDataSetChanged()
                 if (fragmentList.size == 2) fragmentList[1].getBinding().feed.adapter?.notifyDataSetChanged()
             }
 
-            if(post.postId in currentUser.likedPostsId){
+            if(post.postId in AuthUser.getInstance()!!.likedPosts){
                 binding.like.setImageResource(R.drawable.ic_icon_like_liked)
             } else {
                 binding.like.setImageResource(R.drawable.ic_icon_like_dontliked)
             }
 
-            if(post.user_uid != currentUser.uid){
+            if(post.user_uid != AuthUser.getInstance()!!.id){
                 binding.moreAction.visibility = View.INVISIBLE
             }
         }
@@ -64,3 +65,5 @@ class FeedListAdapter(
 
     override fun getItemCount(): Int = list.size
 }
+
+*/

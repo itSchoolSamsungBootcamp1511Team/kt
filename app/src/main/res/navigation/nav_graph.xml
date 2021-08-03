@@ -18,5 +18,5 @@
         android:id="@+id/navigation_account"
         android:name="com.example.bootcamp.AccountFragment"
         android:label="@string/account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_profile" />
 </navigation>
