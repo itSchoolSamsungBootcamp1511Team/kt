@@ -1,6 +1,7 @@
 package com.example.bootcamp
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         // заполнение AuthUser
         fillUser();
+
     }
 
     private fun fillUser() {
@@ -65,18 +67,16 @@ class MainActivity : AppCompatActivity() {
                     for (snap in dataSnapshot.child("comments").children) {
                         commentsID.add(snap.getValue().toString().toInt());
                     }
-
                     val curUser = User(dataSnapshot.child("name").getValue().toString(),
                             dataSnapshot.child("surname").getValue().toString(),
                             dataSnapshot.child("avatar").getValue().toString(),
                             dataSnapshot.child("status").getValue().toString(),
+                            dataSnapshot.child("otherMeLikes").getValue().toString().toInt(),
                             myId, postsID, likesID, commentsID)
                     AuthUser.setUser228(curUser)
                 }
 
             })
         }
-
-        Toast.makeText(applicationContext, AuthUser.getInstance().toString(), Toast.LENGTH_LONG).show();
     }
 }

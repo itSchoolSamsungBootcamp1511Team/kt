@@ -5,6 +5,7 @@ data class User(
         var surname: String,
         var avatar: String,
         var status: String,
+        var otherMeLikes: Int,
         var id: Int,
         var myPosts: ArrayList<Int>,
         var likedPosts: ArrayList<Int>,
