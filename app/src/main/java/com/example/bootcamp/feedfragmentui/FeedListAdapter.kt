@@ -10,10 +10,11 @@ import com.example.bootcamp.R
 import com.example.bootcamp.currentUser
 import com.example.bootcamp.databinding.LayoutFeedItemBinding
 import com.example.bootcamp.models.Post
+import com.example.bootcamp.models.User
 
 class FeedListAdapter(
     val list: MutableList<Post>,
-    val activity: Activity
+    val activity: Activity,
 ): RecyclerView.Adapter<FeedListAdapter.ItemHolder>() {
 
 
@@ -27,16 +28,20 @@ class FeedListAdapter(
             binding.comments.setOnClickListener { Toast.makeText(activity, "Comments in develop", Toast.LENGTH_SHORT).show() }
             binding.moreAction.setOnClickListener { Toast.makeText(activity, "More Action in develop", Toast.LENGTH_SHORT).show() }
             binding.like.setOnClickListener {
-                if(post.postId in currentUser.likedPosts){
+                if (post.postId in currentUser.likedPostsId) {
                     binding.like.setImageResource(R.drawable.ic_icon_like_dontliked)
-                    currentUser.likedPosts.remove(post.postId)
+                    currentUser.likedPostsId.remove(post.postId)
+                    User.likedPosts.remove(post)
                 } else {
                     binding.like.setImageResource(R.drawable.ic_icon_like_liked)
-                    currentUser.likedPosts.add(post.postId)
+                    currentUser.likedPostsId.add(post.postId)
+                    User.likedPosts.add(post)
                 }
+                fragmentList[0].getBinding().feed.adapter?.notifyDataSetChanged()
+                if (fragmentList.size == 2) fragmentList[1].getBinding().feed.adapter?.notifyDataSetChanged()
             }
 
-            if(post.postId in currentUser.likedPosts){
+            if(post.postId in currentUser.likedPostsId){
                 binding.like.setImageResource(R.drawable.ic_icon_like_liked)
             } else {
                 binding.like.setImageResource(R.drawable.ic_icon_like_dontliked)

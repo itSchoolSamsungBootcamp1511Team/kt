@@ -5,6 +5,10 @@ class User(
     var name: String,
     var surname: String,
 ) {
-    var likedPosts: MutableList<String> = mutableListOf()
+    var likedPostsId: MutableList<String> = mutableListOf()
+
+    companion object{
+        var likedPosts: MutableList<Post> = mutableListOf()
+    }
 
 }

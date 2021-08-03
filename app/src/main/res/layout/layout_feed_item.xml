@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/feed_style"
-    android:layout_marginBottom="8dp">
+    android:layout_marginVertical="4dp">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
@@ -86,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/upcycling" />
+            tools:src="@drawable/upcycling" />
 
     </androidx.cardview.widget.CardView>
 
@@ -107,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/ball" />
+            tools:src="@drawable/ball" />
 
     </androidx.cardview.widget.CardView>
 

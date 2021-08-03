@@ -9,11 +9,12 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.bootcamp.databinding.ActivityLoginBinding
+import com.example.bootcamp.models.Post
 import com.example.bootcamp.models.User
 
-const val CURRENT_USER = "CURRENT_USER"
 const val CURRENT_USER_UID = "0"
 lateinit var currentUser: User
+val listPosts = Post.createTestList()
 
 class LoginActivity : AppCompatActivity(){
     private lateinit var binding: ActivityLoginBinding
