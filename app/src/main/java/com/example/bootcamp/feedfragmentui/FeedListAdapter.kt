@@ -29,20 +29,18 @@ class FeedListAdapter(
             binding.comments.setOnClickListener { Toast.makeText(activity, "Comments in develop", Toast.LENGTH_SHORT).show() }
             binding.moreAction.setOnClickListener { Toast.makeText(activity, "More Action in develop", Toast.LENGTH_SHORT).show() }
             binding.like.setOnClickListener {
-                if (post.id in user.likedPostsId) {
+                if (post.id in user.getLikedPostsId()) {
                     binding.like.setImageResource(R.drawable.ic_icon_like_dontliked)
-                    user.likedPostsId.remove(post.id)
-                    user.likedPosts.remove(post)
+                    user.liked.remove(post.id)
                 } else {
                     binding.like.setImageResource(R.drawable.ic_icon_like_liked)
-                    user.likedPostsId.add(post.id)
-                    user.likedPosts.add(post)
+                    user.liked.add(post.id)
                 }
                 fragmentList[0]!!.getBinding().feed.adapter?.notifyDataSetChanged()
                 if (fragmentList.size == 2) fragmentList[1]!!.getBinding().feed.adapter?.notifyDataSetChanged()
             }
 
-            if(post.id in user.likedPostsId){
+            if(post.id in user.getLikedPostsId()){
                 binding.like.setImageResource(R.drawable.ic_icon_like_liked)
             } else {
                 binding.like.setImageResource(R.drawable.ic_icon_like_dontliked)

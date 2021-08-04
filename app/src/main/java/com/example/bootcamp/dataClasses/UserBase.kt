@@ -11,5 +11,12 @@ class UserBase {
         fun setInstance(users: ArrayList<User>) {
             currentUsers = users
         }
+
+        fun findUserById(idChel: Int): User? {
+            for (i in currentUsers!!)
+                if (i.id == idChel)
+                    return i
+            return null
+        }
     }
 }

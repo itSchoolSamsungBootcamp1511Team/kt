@@ -5,6 +5,5 @@ data class Post(
         var userId: Int,
         var time: Long,
         var photos: String,
-        var data: String,
-        var likes: Int) {
+        var data: String) {
 }

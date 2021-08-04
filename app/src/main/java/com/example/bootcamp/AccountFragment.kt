@@ -36,8 +36,6 @@ class AccountFragment : Fragment() {
         val chel = AuthUser.getInstance()!!
         nameSurnameText.text = chel.name + " " + chel.surname;
         statusText.text = chel.status
-        postsAmountText.text = chel.myPostsId.size.toString()
-        likesAmountText.text = chel.otherMeLikes.toString()
     }
 
 

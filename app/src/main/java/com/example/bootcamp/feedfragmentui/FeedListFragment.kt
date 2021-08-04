@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bootcamp.R
 import com.example.bootcamp.dataClasses.AuthUser
+import com.example.bootcamp.dataClasses.PostBase
 import com.example.bootcamp.databinding.Viewpager2FeedBinding
-import com.example.bootcamp.listPosts
 
 
 const val ARG_OBJECT = "FeedList"
@@ -33,9 +33,9 @@ class FeedListFragment: Fragment() {
         arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
             val feed = view.findViewById<RecyclerView>(R.id.feed)
             val tabTitle = getString(ARG_OBJECT)
-            var adapter = FeedListAdapter(listPosts, view.context as Activity)
+            var adapter = FeedListAdapter(PostBase.getInstance()!!, view.context as Activity)
             if (tabTitle == TAB_TITLES[1]){
-                adapter = FeedListAdapter(AuthUser.getInstance()!!.likedPosts, view.context as Activity)
+                adapter = FeedListAdapter(AuthUser.getInstance()!!.getLikedPosts(), view.context as Activity)
             }
             feed.layoutManager = LinearLayoutManager(view.context)
             feed.adapter = adapter
