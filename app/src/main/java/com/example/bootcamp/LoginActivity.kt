@@ -3,6 +3,7 @@ package com.example.bootcamp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -27,10 +28,8 @@ class LoginActivity : AppCompatActivity(){
         window.navigationBarColor = ContextCompat.getColor(this, R.color.blue)
         setContentView(binding.root)
         binding.loginButton.setOnClickListener {
-            /* just for test */
-            fillUser();
-            /* just for test */
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, SplashScreen::class.java)
+            intent.putExtra("228", 1)
             startActivity(intent)
         }
 
@@ -39,47 +38,4 @@ class LoginActivity : AppCompatActivity(){
         }
     }
 
-    private fun fillUser() {
-        val myId = intent.getIntExtra("UserId", 1);
-        val now = AuthUser.getInstance()
-        if (myId == -1 && now == null) {
-            Toast.makeText(applicationContext, "Что-то пошло не так!", Toast.LENGTH_LONG).show();
-            this.finish();
-        }
-        if (now == null) {
-            val myBase = FirebaseDatabase.getInstance().reference;
-            myBase.child("users").child(myId.toString()).addValueEventListener(object:
-                ValueEventListener {
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val postsID = ArrayList<Int>()
-                    for (snap in dataSnapshot.child("posts").children) {
-                        postsID.add(snap.value.toString().toInt());
-                    }
-
-                    val likesID = ArrayList<Int>()
-                    for (snap in dataSnapshot.child("likes").children) {
-                        likesID.add(snap.value.toString().toInt());
-                    }
-
-                    val commentsID = ArrayList<Int>()
-                    for (snap in dataSnapshot.child("comments").children) {
-                        commentsID.add(snap.value.toString().toInt());
-                    }
-                    val curUser = User(dataSnapshot.child("name").value.toString(),
-                        dataSnapshot.child("surname").value.toString(),
-                        dataSnapshot.child("avatar").value.toString(),
-                        dataSnapshot.child("status").value.toString(),
-                        dataSnapshot.child("otherMeLikes").value.toString().toInt(),
-                        myId, postsID, likesID, commentsID)
-                    AuthUser.setInstance(curUser)
-
-                    Log.e("LoginTag", "User created")
-                }
-            })
-        }
-    }
 }
