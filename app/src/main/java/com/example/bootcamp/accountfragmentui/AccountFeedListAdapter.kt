@@ -3,6 +3,7 @@ package com.example.bootcamp.accountfragmentui
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.bootcamp.dataClasses.AuthUser
 import com.example.bootcamp.dataClasses.Post
 import com.example.bootcamp.databinding.LayoutAccountItemBinding
@@ -15,15 +16,17 @@ class AccountFeedListAdapter(
     FeedListAdapter(list, activity) {
 
     inner class ProfileItemHolder(private val binding: LayoutAccountItemBinding): AbstractItemHolder(binding.root){
-        override val nameHolder = "ProfileItemHolder"
         override fun bind(position: Int) {
             val user = AuthUser.getInstance()!!
 
             binding.name.text = "${user.name}  ${user.surname}"
-            binding.countPosts.text = "49"
-            binding.countLikes.text = "49"
+            binding.countPosts.text = "${user.myPosts.size}"
+            binding.countLikes.text = "${user.likedPosts.size}"
             binding.status.text = user.status
 
+            binding.editButton.setOnClickListener {
+                Toast.makeText(activity, "In develop", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

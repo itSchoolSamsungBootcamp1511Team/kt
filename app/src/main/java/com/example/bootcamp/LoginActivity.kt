@@ -7,16 +7,13 @@ import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.example.bootcamp.dataClasses.AuthUser
-import com.example.bootcamp.dataClasses.Post
-import com.example.bootcamp.dataClasses.User
+import com.example.bootcamp.dataClasses.*
 import com.example.bootcamp.databinding.ActivityLoginBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
-val listPosts = Post.createTestList()
+import kotlinx.coroutines.GlobalScope
 
 class LoginActivity : AppCompatActivity(){
     private lateinit var binding: ActivityLoginBinding
@@ -28,14 +25,22 @@ class LoginActivity : AppCompatActivity(){
         window.navigationBarColor = ContextCompat.getColor(this, R.color.blue)
         setContentView(binding.root)
         binding.loginButton.setOnClickListener {
-            val intent = Intent(this, SplashScreen::class.java)
-            intent.putExtra("228", 1)
-            startActivity(intent)
+            binding.layout.setTransition(R.id.end, R.id.end_end)
+            binding.layout.setTransitionDuration(1000)
+            binding.layout.transitionToEnd()
+
+            Handler().postDelayed({
+                val intent = Intent(this, SplashScreen::class.java)
+                intent.putExtra("228", 1)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent)
+                overridePendingTransition(0, 0)
+                finish()
+            }, 2000)
         }
 
         binding.signInButton.setOnClickListener {
             Toast.makeText(this, "Sign-in!", Toast.LENGTH_SHORT).show()
         }
     }
-
 }

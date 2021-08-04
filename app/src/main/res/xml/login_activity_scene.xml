@@ -3,13 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
-    <Transition
-        motion:constraintSetEnd="@+id/end"
-        motion:constraintSetStart="@id/start"
-        motion:duration="1000"
-        motion:autoTransition="animateToEnd"
-        />
-
     <ConstraintSet android:id="@+id/start">
         <Constraint
             android:id="@+id/login_text"
@@ -68,4 +61,66 @@
             motion:layout_constraintStart_toStartOf="@+id/guideline2"
             android:visibility="invisible" />
     </ConstraintSet>
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000"
+        motion:autoTransition="animateToEnd">
+    </Transition>
+    <ConstraintSet android:id="@+id/end_end" >
+        <Constraint
+            android:scaleX="2"
+            android:scaleY="2"
+            motion:layout_constraintEnd_toEndOf="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="@+id/guideline2"
+            android:layout_marginTop="180dp"
+            android:id="@+id/icon" />
+        <Constraint
+            android:id="@+id/login_text"
+            motion:layout_constraintEnd_toEndOf="@+id/guideline3"
+            android:layout_width="328dp"
+            android:layout_height="56dp"
+            motion:layout_constraintTop_toBottomOf="@+id/title"
+            motion:layout_constraintStart_toStartOf="@+id/guideline2"
+            android:layout_marginTop="24dp"
+            android:visibility="invisible" />
+        <Constraint
+            android:id="@+id/password_text"
+            motion:layout_constraintEnd_toEndOf="@+id/guideline3"
+            android:layout_width="328dp"
+            android:layout_height="56dp"
+            motion:layout_constraintTop_toBottomOf="@+id/login_text"
+            motion:layout_constraintStart_toStartOf="@+id/guideline2"
+            android:layout_marginTop="24dp"
+            android:visibility="invisible" />
+        <Constraint
+            android:id="@+id/sign_in_button"
+            android:layout_width="158dp"
+            android:layout_height="48dp"
+            motion:layout_constraintTop_toBottomOf="@+id/password_text"
+            motion:layout_constraintStart_toStartOf="@+id/guideline2"
+            android:layout_marginTop="24dp"
+            android:visibility="invisible" />
+        <Constraint
+            android:id="@+id/login_button"
+            motion:layout_constraintEnd_toEndOf="@+id/guideline3"
+            android:layout_width="158dp"
+            android:layout_height="48dp"
+            motion:layout_constraintTop_toBottomOf="@+id/password_text"
+            android:layout_marginTop="24dp"
+            android:visibility="invisible" />
+    </ConstraintSet>
+<!--    <Transition-->
+<!--        android:id="@+id/end_login"-->
+<!--        motion:constraintSetStart="@+id/end"-->
+<!--        motion:constraintSetEnd="@+id/end_end"-->
+<!--        motion:duration="1000" >-->
+<!--        <OnClick motion:targetId="@id/login_button"-->
+<!--            motion:clickAction="transitionToEnd" />-->
+<!--    </Transition>-->
+
 </MotionScene>
