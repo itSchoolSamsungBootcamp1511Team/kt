@@ -11,12 +11,12 @@
         tools:layout="@layout/fragment_map" />
     <fragment
         android:id="@+id/navigation_feed"
-        android:name="com.example.bootcamp.FeedFragment"
+        android:name="com.example.bootcamp.feedfragmentui.FeedFragment"
         android:label="@string/feed"
         tools:layout="@layout/fragment_feed" />
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.example.bootcamp.AccountFragment"
+        android:name="com.example.bootcamp.accountfragmentui.AccountFragment"
         android:label="@string/account"
         tools:layout="@layout/fragment_profile" />
 </navigation>

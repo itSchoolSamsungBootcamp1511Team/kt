@@ -14,4 +14,8 @@
     <string name="samsung_ecobox_map">Samsung ecobox map</string>
     <string name="feed">Feed</string>
     <string name="map">Map</string>
+    <string name="add_post">Добавить запись</string>
+    <string name="likes">Likes</string>
+    <string name="posts">Posts</string>
+    <string name="edit_profile">Edit Profile</string>
 </resources>

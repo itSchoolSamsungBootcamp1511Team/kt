@@ -1,25 +1,32 @@
 package com.example.bootcamp.feedfragmentui
 
 import android.app.Activity
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBindings
 import com.example.bootcamp.R
 import com.example.bootcamp.dataClasses.AuthUser
 import com.example.bootcamp.dataClasses.Post
 import com.example.bootcamp.databinding.LayoutFeedItemBinding
 
 
-class FeedListAdapter(
+open class FeedListAdapter(
     val list: MutableList<Post>,
-    val activity: Activity,
-): RecyclerView.Adapter<FeedListAdapter.ItemHolder>() {
+    val activity: Activity
+): RecyclerView.Adapter<FeedListAdapter.AbstractItemHolder>() {
 
+    abstract class AbstractItemHolder(view: View): RecyclerView.ViewHolder(view){
+        open val nameHolder = "AbstractHolder"
+        open fun bind(position: Int){}
+    }
 
-    inner class ItemHolder(private val binding: LayoutFeedItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(position: Int){
+    inner class ItemHolder(private val binding: LayoutFeedItemBinding) : AbstractItemHolder(binding.root){
+        override val nameHolder = "ItemHolder"
+        override fun bind(position: Int){
             val post = list[position]
             val user = AuthUser.getInstance()!!
 
@@ -48,20 +55,22 @@ class FeedListAdapter(
                 binding.like.setImageResource(R.drawable.ic_icon_like_dontliked)
             }
 
-            if(post.id != user.id){
-                binding.moreAction.visibility = View.INVISIBLE
+            if(post.userId == user.id){
+                binding.moreAction.visibility = View.VISIBLE
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractItemHolder {
         return ItemHolder(LayoutFeedItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun onBindViewHolder(holder: ItemHolder, position: Int) {
+    override fun onBindViewHolder(holder: AbstractItemHolder, position: Int) {
         holder.bind(position)
     }
 
     override fun getItemCount(): Int = list.size
+
+
 }

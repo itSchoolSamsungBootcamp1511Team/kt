@@ -1,4 +1,4 @@
-package com.example.bootcamp
+package com.example.bootcamp.feedfragmentui
 
 import android.os.Bundle
 import android.util.Log
@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.bootcamp.dataClasses.AuthUser
 import com.example.bootcamp.databinding.FragmentFeedBinding
-import com.example.bootcamp.feedfragmentui.FeedPagerAdapter
-import com.example.bootcamp.feedfragmentui.TAB_TITLES
 import com.google.android.material.tabs.TabLayoutMediator
 
 class FeedFragment : Fragment() {

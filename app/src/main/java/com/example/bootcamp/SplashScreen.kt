@@ -69,25 +69,26 @@ class SplashScreen : AppCompatActivity() {
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val postsID = ArrayList<Int>()
-                    for (snap in dataSnapshot.child("posts").children) {
-                        postsID.add(snap.value.toString().toInt());
-                    }
+//                    for (snap in dataSnapshot.child("posts").children) {
+//                        postsID.add(snap.value.toString().toInt());
+//                    }
 
                     val likesID = ArrayList<Int>()
-                    for (snap in dataSnapshot.child("likes").children) {
-                        likesID.add(snap.value.toString().toInt());
-                    }
+//                    for (snap in dataSnapshot.child("likes").children) {
+//                        likesID.add(snap.value.toString().toInt());
+//                    }
 
                     val commentsID = ArrayList<Int>()
-                    for (snap in dataSnapshot.child("comments").children) {
-                        commentsID.add(snap.value.toString().toInt());
-                    }
-                    val curUser = User(dataSnapshot.child("name").value.toString(),
+//                    for (snap in dataSnapshot.child("comments").children) {
+//                        commentsID.add(snap.value.toString().toInt());
+//                    }
+                    val curUser = User(myId,
+                        dataSnapshot.child("name").value.toString(),
                         dataSnapshot.child("surname").value.toString(),
                         dataSnapshot.child("avatar").value.toString(),
                         dataSnapshot.child("status").value.toString(),
                         dataSnapshot.child("otherMeLikes").value.toString().toInt(),
-                        myId, postsID, likesID, commentsID)
+                        postsID, likesID, commentsID)
                     AuthUser.setInstance(curUser)
 
                     Log.e("LoginTag", "User created")

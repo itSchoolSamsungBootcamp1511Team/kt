@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/gray"
     android:orientation="vertical"
-    tools:context=".FeedFragment">
+    tools:context=".feedfragmentui.FeedFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -40,15 +40,15 @@
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/app_bar_style"
                 android:layout_marginHorizontal="16dp"
+                android:background="@drawable/app_bar_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title"
-                app:tabTextColor="@color/dark_gray"
-                app:tabSelectedTextColor="@color/black"
                 app:tabIndicatorColor="@color/black"
-                app:tabRippleColor="@color/black"/>
+                app:tabRippleColor="@color/black"
+                app:tabSelectedTextColor="@color/black"
+                app:tabTextColor="@color/dark_gray" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -60,5 +60,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/guideline4"
+        app:layout_constraintBottom_toTopOf="@id/guideline5"
+        android:contentDescription="@string/add_post"
+        android:backgroundTint="@color/blue"
+        app:srcCompat="@drawable/ic_icon_plus"
+        app:tint="@color/white"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="8dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
