@@ -5,13 +5,9 @@ data class User(
         var name: String,
         var surname: String,
         var avatar: String,
-        var status: String,
-        var otherMeLikes: Int,
-        var myPostsId: ArrayList<Int>,
-        var likedPostsId: ArrayList<Int>,
-        var likedCommentsId: ArrayList<Int>) {
-
-        val likedPosts: MutableList<Post> = mutableListOf()
+        var status: String) {
+        //val likedPosts: MutableList<Post> = mutableListOf()
+        //val myPosts: MutableList<Post> = mutableListOf()
 
 }
 
