@@ -33,13 +33,11 @@ class AccountFragment : Fragment() {
         if (AuthUser.getInstance() == null) {
             return;
         }
-        var chel = AuthUser.getInstance()!!;
-        nameSurnameText.setText(chel.name + " " + chel.surname);
-        statusText.setText(chel.status)
-        postsAmountText.setText(chel.myPosts.size.toString())
-        likesAmountText.setText(chel.otherMeLikes.toString())
-
-
+        val chel = AuthUser.getInstance()!!
+        nameSurnameText.text = chel.name + " " + chel.surname;
+        statusText.text = chel.status
+        postsAmountText.text = chel.myPostsId.size.toString()
+        likesAmountText.text = chel.otherMeLikes.toString()
     }
 
 

@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         setupWindow()
         setContentView(binding.root)
         setupBottomNavigation()
-        fillUser();
     }
 
     private fun setupWindow(){
@@ -48,45 +47,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun fillUser() {
-        var myId = intent.getIntExtra("UserId", 1);
-        var now = AuthUser.getInstance()
-        if (myId == -1 && now == null) {
-            Toast.makeText(applicationContext, "Что-то пошло не так!", Toast.LENGTH_LONG).show();
-            this.finish();
-        }
-        if (now == null) {
-            val myBase = FirebaseDatabase.getInstance().getReference();
-            myBase.child("users").child(myId.toString()).addValueEventListener(object: ValueEventListener{
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var postsID = ArrayList<Int>()
-                    for (snap in dataSnapshot.child("posts").children) {
-                        postsID.add(snap.getValue().toString().toInt());
-                    }
-
-                    var likesID = ArrayList<Int>()
-                    for (snap in dataSnapshot.child("likes").children) {
-                        likesID.add(snap.getValue().toString().toInt());
-                    }
-
-                    var commentsID = ArrayList<Int>()
-                    for (snap in dataSnapshot.child("comments").children) {
-                        commentsID.add(snap.getValue().toString().toInt());
-                    }
-                    val curUser = User(dataSnapshot.child("name").getValue().toString(),
-                            dataSnapshot.child("surname").getValue().toString(),
-                            dataSnapshot.child("avatar").getValue().toString(),
-                            dataSnapshot.child("status").getValue().toString(),
-                            dataSnapshot.child("otherMeLikes").getValue().toString().toInt(),
-                            myId, postsID, likesID, commentsID)
-                    AuthUser.setUser228(curUser)
-                }
-
-            })
-        }
-    }
 }

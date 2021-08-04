@@ -7,9 +7,11 @@ data class User(
         var status: String,
         var otherMeLikes: Int,
         var id: Int,
-        var myPosts: ArrayList<Int>,
-        var likedPosts: ArrayList<Int>,
-        var likedComments: ArrayList<Int>) {
+        var myPostsId: ArrayList<Int>,
+        var likedPostsId: ArrayList<Int>,
+        var likedCommentsId: ArrayList<Int>) {
+
+        val likedPosts: MutableList<Post> = mutableListOf()
 
 }
 

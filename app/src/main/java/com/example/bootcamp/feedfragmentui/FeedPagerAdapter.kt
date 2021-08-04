@@ -15,19 +15,14 @@ class FeedPagerAdapter(private val fa: FragmentActivity): FragmentStateAdapter(f
     override fun getItemCount(): Int = TAB_TITLES.size
 
     override fun createFragment(position: Int): Fragment {
+        if (fragmentList.size == 2) fragmentList.clear()
         val fragment = FeedListFragment()
         fragment.setBinding(fa)
         fragment.arguments = Bundle().apply {
             putString(ARG_OBJECT, TAB_TITLES[position])
         }
         fragment.isCreated = true
-
-        when(fragmentList.size){
-            0, 1 -> { fragmentList.add(fragment) }
-            else -> { fragmentList[position] = fragment }
-        }
-
-        return fragmentList[position]
+        fragmentList.add(fragment)
+        return fragment
     }
-
 }
