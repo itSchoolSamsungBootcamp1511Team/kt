@@ -15,6 +15,7 @@ import com.example.bootcamp.dataClasses.Post
 import com.example.bootcamp.dataClasses.PostBase
 import com.example.bootcamp.dataClasses.UserBase
 import com.example.bootcamp.databinding.LayoutFeedItemBinding
+import com.google.firebase.database.FirebaseDatabase
 
 
 open class FeedListAdapter(
@@ -40,9 +41,23 @@ open class FeedListAdapter(
                 if (post.id in user.likedPostsId) {
                     binding.like.setImageResource(R.drawable.ic_icon_like_dontliked)
                     user.likedPostsId.remove(post.id)
+                    FirebaseDatabase.
+                        getInstance().
+                            reference.
+                                child("users").
+                                    child(AuthUser.getInstance()!!.id.toString()).
+                                        child("likes").
+                                            setValue(user.likedPostsId);
                 } else {
                     binding.like.setImageResource(R.drawable.ic_icon_like_liked)
                     user.likedPostsId.add(post.id)
+                    FirebaseDatabase.
+                        getInstance().
+                            reference.
+                                child("users").
+                                    child(AuthUser.getInstance()!!.id.toString()).
+                                        child("likes").
+                                            setValue(user.likedPostsId);
                 }
 
                 (fragmentList[0].getBinding().feed.adapter as FeedListAdapter).list = PostBase.getInstance()!!
