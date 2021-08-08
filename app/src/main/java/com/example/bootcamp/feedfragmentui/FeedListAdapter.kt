@@ -10,10 +10,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBindings
 import com.example.bootcamp.R
-import com.example.bootcamp.dataClasses.AuthUser
-import com.example.bootcamp.dataClasses.Post
-import com.example.bootcamp.dataClasses.PostBase
-import com.example.bootcamp.dataClasses.UserBase
+import com.example.bootcamp.Utils
+import com.example.bootcamp.dataClasses.*
 import com.example.bootcamp.databinding.LayoutFeedItemBinding
 import com.google.firebase.database.FirebaseDatabase
 
@@ -41,22 +39,21 @@ open class FeedListAdapter(
                 if (post.id in user.likedPostsId) {
                     binding.like.setImageResource(R.drawable.ic_icon_like_dontliked)
                     user.likedPostsId.remove(post.id)
-                    FirebaseDatabase.getInstance().reference.child("users")
-                        .child(AuthUser.getInstance()!!.id)
-                        .child("likedPostsId").setValue(user.likedPostsId)
+                    user.setLikedPosts()
+                    val korutina = Korutina()
+                    korutina.execute()
                 } else {
                     binding.like.setImageResource(R.drawable.ic_icon_like_liked)
                     user.likedPostsId.add(post.id)
-                    FirebaseDatabase.getInstance().reference.child("users")
-                        .child(AuthUser.getInstance()!!.id)
-                        .child("likedPostsId").setValue(user.likedPostsId)
+                    user.setLikedPosts()
+                    val korutina = Korutina()
+                    korutina.execute()
                 }
-
                 (fragmentList[0].getBinding().feed.adapter as FeedListAdapter).list = PostBase.getInstance()!!
                 fragmentList[0].getBinding().feed.adapter?.notifyDataSetChanged()
 
                 if (fragmentList.size == 2) {
-                    user.setLikedPosts()
+
                     (fragmentList[1].getBinding().feed.adapter as FeedListAdapter).list = user.likedPosts
                     fragmentList[1].getBinding().feed.adapter?.notifyDataSetChanged()
                 }

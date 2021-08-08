@@ -7,9 +7,6 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.example.bootcamp.Utils.Companion.fillPosts
-import com.example.bootcamp.Utils.Companion.fillUser
-import com.example.bootcamp.Utils.Companion.fillUsers
 import com.example.bootcamp.Utils.Companion.isOnline
 import com.example.bootcamp.databinding.ActivitySplashScreenBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -62,7 +59,7 @@ class SplashScreen : AppCompatActivity() {
                 Toast.makeText(this, "User don't exist or incorrect password", Toast.LENGTH_SHORT).show()
                 login()
             } else {
-                fillInfo()
+                Utils.fillInfo()
                 Handler().postDelayed({
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
@@ -72,9 +69,4 @@ class SplashScreen : AppCompatActivity() {
         }
     }
 
-    private fun fillInfo() {
-        fillUser();
-        fillUsers();
-        fillPosts();
-    }
 }

@@ -63,7 +63,7 @@ class Utils {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (i in snapshot.children) {
                         val liked = ArrayList<String>()
-                        for (j in i.child("likes").children)
+                        for (j in i.child("likedPostsId").children)
                             liked.add(j.value.toString())
 
                         users.add(
@@ -122,7 +122,7 @@ class Utils {
 
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         var liked = ArrayList<String>()
-                        for (i in dataSnapshot.child("likes").children)
+                        for (i in dataSnapshot.child("likedPostsId").children)
                             liked.add(i.value.toString())
 
                         if (liked.size == 1 && liked[0] == "") liked = ArrayList()
@@ -143,5 +143,16 @@ class Utils {
                 })
             }
         }
+        fun fillInfo() {
+            fillPosts()
+            fillUsers()
+            fillUser()
+        }
+        fun sosan() {
+            FirebaseDatabase.getInstance().reference.child("users")
+                .child(AuthUser.getInstance()!!.id)
+                .child("likedPostsId").setValue(AuthUser.getInstance()!!.likedPostsId)
+        }
     }
+
 }
