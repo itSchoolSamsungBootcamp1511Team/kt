@@ -63,7 +63,7 @@ class AddPostActivity : AppCompatActivity() {
         val postik = Postik(text, time, userId)
         FirebaseDatabase.getInstance().reference
             .child("posts").push().setValue(postik)
-
+        Utils.fillPosts()
 
     }
 }
