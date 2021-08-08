@@ -12,7 +12,7 @@ class UserBase {
             currentUsers = users
         }
 
-        fun findUserById(userId: Int): User? {
+        fun findUserById(userId: String): User? {
             for (i in currentUsers!!)
                 if (i.id == userId)
                     return i

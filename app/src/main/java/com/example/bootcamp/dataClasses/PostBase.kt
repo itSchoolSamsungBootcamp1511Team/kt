@@ -20,7 +20,7 @@ class PostBase {
                     Log.d("Posts", i.toString())
                 }
             }
-            fun findPostById(userId: Int): Post? {
+            fun findPostById(userId: String): Post? {
                 for (i in currentPosts!!)
                     if (i.id == userId)
                         return i

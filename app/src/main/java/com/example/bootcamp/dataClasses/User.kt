@@ -1,16 +1,15 @@
 package com.example.bootcamp.dataClasses
 
 data class User(
-        var id: Int,
+        var id: String,
         var name: String,
-        var surname: String,
         var avatar: String,
         var status: String,
-        var likedPostsId: ArrayList<Int>) {
+        var likedPostsId: ArrayList<String>) {
 
         var likedPosts: MutableList<Post> = mutableListOf()
         var myPosts: MutableList<Post> = mutableListOf()
-        var myPostsId: MutableList<Int> = mutableListOf()
+        var myPostsId: MutableList<String> = mutableListOf()
 
         fun setLikedPosts(){
                 val ans = ArrayList<Post>()
@@ -29,7 +28,7 @@ data class User(
         }
 
         fun setMyPostsId() {
-                val ans = ArrayList<Int>()
+                val ans = ArrayList<String>()
                 for (i in PostBase.getInstance()!!)
                         if (i.userId == id)
                                 ans.add(i.id)

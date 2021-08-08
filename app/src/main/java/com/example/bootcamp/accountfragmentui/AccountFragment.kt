@@ -25,7 +25,7 @@ class AccountFragment : Fragment() {
 
         val user = AuthUser.getInstance()!!
 
-        val myPosts = mutableListOf(Post(-1, -1, -1, "", ""))
+        val myPosts = mutableListOf(Post("-1", "-1", -1, ""))
         user.setMyPosts()
         user.setMyPostsId()
         myPosts.addAll(user.myPosts)

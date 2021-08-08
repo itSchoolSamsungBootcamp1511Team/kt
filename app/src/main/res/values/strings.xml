@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Upcycling</string>
-    <string name="login">Login</string>
+    <string name="sign_in">Sign In</string>
     <string name="password">Password</string>
-    <string name="sign_in">Sign-in</string>
+    <string name="sign_up">Sign Up</string>
     <string name="version">version 1.0</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
@@ -18,4 +18,7 @@
     <string name="likes">Likes</string>
     <string name="posts">Posts</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="email_login">Email (Login)</string>
+    <string name="user_name">User name</string>
+    <string name="repeat_password">Repeat password</string>
 </resources>

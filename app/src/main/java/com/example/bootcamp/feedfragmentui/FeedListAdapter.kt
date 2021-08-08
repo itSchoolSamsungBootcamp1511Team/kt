@@ -32,8 +32,8 @@ open class FeedListAdapter(
             val post = list[position]
             val user = AuthUser.getInstance()!!
 
-            binding.text.text = post.data
-            binding.userName.text = UserBase.findUserById(post.userId)!!.name + " " + UserBase.findUserById(post.userId)!!.surname
+            binding.text.text = post.text
+            binding.userName.text = UserBase.findUserById(post.userId)!!.name
 
             binding.comments.setOnClickListener { Toast.makeText(activity, "Comments in develop", Toast.LENGTH_SHORT).show() }
             binding.moreAction.setOnClickListener { Toast.makeText(activity, "More Action in develop", Toast.LENGTH_SHORT).show() }
@@ -41,23 +41,15 @@ open class FeedListAdapter(
                 if (post.id in user.likedPostsId) {
                     binding.like.setImageResource(R.drawable.ic_icon_like_dontliked)
                     user.likedPostsId.remove(post.id)
-                    FirebaseDatabase.
-                        getInstance().
-                            reference.
-                                child("users").
-                                    child(AuthUser.getInstance()!!.id.toString()).
-                                        child("likes").
-                                            setValue(user.likedPostsId);
+                    FirebaseDatabase.getInstance().reference.child("users")
+                        .child(AuthUser.getInstance()!!.id)
+                        .child("likedPostsId").setValue(user.likedPostsId)
                 } else {
                     binding.like.setImageResource(R.drawable.ic_icon_like_liked)
                     user.likedPostsId.add(post.id)
-                    FirebaseDatabase.
-                        getInstance().
-                            reference.
-                                child("users").
-                                    child(AuthUser.getInstance()!!.id.toString()).
-                                        child("likes").
-                                            setValue(user.likedPostsId);
+                    FirebaseDatabase.getInstance().reference.child("users")
+                        .child(AuthUser.getInstance()!!.id)
+                        .child("likedPostsId").setValue(user.likedPostsId)
                 }
 
                 (fragmentList[0].getBinding().feed.adapter as FeedListAdapter).list = PostBase.getInstance()!!
@@ -66,7 +58,6 @@ open class FeedListAdapter(
                 if (fragmentList.size == 2) {
                     user.setLikedPosts()
                     (fragmentList[1].getBinding().feed.adapter as FeedListAdapter).list = user.likedPosts
-                    Log.d("FeedTag", user.likedPosts.toString())
                     fragmentList[1].getBinding().feed.adapter?.notifyDataSetChanged()
                 }
             }

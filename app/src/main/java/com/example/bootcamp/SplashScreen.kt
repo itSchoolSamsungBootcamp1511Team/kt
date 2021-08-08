@@ -1,6 +1,9 @@
 package com.example.bootcamp
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -8,38 +11,63 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.example.bootcamp.Utils.Companion.isOnline
 import com.example.bootcamp.dataClasses.*
 import com.example.bootcamp.databinding.ActivitySplashScreenBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlin.math.log
+import com.google.firebase.ktx.Firebase
 
 class SplashScreen : AppCompatActivity() {
     private lateinit var binding: ActivitySplashScreenBinding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(LayoutInflater.from(this))
         supportActionBar?.hide()
         window.navigationBarColor = ContextCompat.getColor(this, R.color.blue)
+        auth = Firebase.auth
 
-        val statusLogin = intent.getIntExtra("228", 0)
-
-        Log.d("LoginTag", statusLogin.toString())
-
-        when(statusLogin){
+        when(intent.getIntExtra("statusLogin", 0)){
             0 -> {
-                Handler().postDelayed({
-                    val intent = Intent(this, LoginActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent)
-                    overridePendingTransition(0,0)
-                    finish()
-                }, 2000)
+                login()
             }
             1 -> {
+                signIn()
+            }
+        }
+
+        setContentView(binding.root)
+    }
+
+    private fun login(){
+        if(isOnline(this)) {
+            Handler().postDelayed({
+                val intent = Intent(this, SignInActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent)
+                overridePendingTransition(0, 0)
+                finish()
+            }, 2000)
+        } else {
+            Toast.makeText(this, "You don't have the Internet connection. Try again later", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun signIn(){
+        val login = intent.getStringExtra("loginUser")!!
+        val pass = intent.getStringExtra("passwordUser")!!
+
+        auth.signInWithEmailAndPassword(login, pass).addOnCompleteListener(this){
+            if(!it.isSuccessful){
+                Toast.makeText(this, "User don't exist", Toast.LENGTH_SHORT).show()
+                login()
+            } else {
                 fillInfo()
                 Handler().postDelayed({
                     val intent = Intent(this, MainActivity::class.java)
@@ -48,8 +76,6 @@ class SplashScreen : AppCompatActivity() {
                 }, 7000)
             }
         }
-
-        setContentView(binding.root)
     }
 
     private fun fillInfo() {
@@ -64,19 +90,18 @@ class SplashScreen : AppCompatActivity() {
         myBase.child("users").addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (i in snapshot.children) {
-                    val liked = ArrayList<Int>()
+                    val liked = ArrayList<String>()
                     for (j in i.child("likes").children)
-                        liked.add(j.value.toString().toInt())
+                        liked.add(j.value.toString())
+
                     users.add(User(
-                        i.key.toString().toInt(),
+                        i.key.toString(),
                         i.child("name").value.toString(),
-                        i.child("surname").value.toString(),
                         i.child("avatar").value.toString(),
                         i.child("status").value.toString(),
                         liked))
                 }
                 UserBase.setInstance(users)
-                Log.d("SETUPINFO", users.size.toString())
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -94,16 +119,13 @@ class SplashScreen : AppCompatActivity() {
                 for (i in snapshot.children) {
                     posts.add(
                         Post(
-                        i.key.toString().toInt(),
-                        i.child("userId").value.toString().toInt(),
+                        i.key.toString(),
+                        i.child("userUID").value.toString(),
                         i.child("time").value.toString().toLong(),
-                        i.child("photos").value.toString(),
-                        i.child("data").value.toString()
-                    )
+                        i.child("text").value.toString())
                     )
                 }
                 PostBase.setInstance(posts)
-                Log.d("SETUPINFO", posts.size.toString())
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -114,13 +136,8 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun fillUser() {
-//        val myId = intent.getIntExtra("228", 1)
-        val myId = 1
+        val myId = auth.currentUser?.uid
         val now = AuthUser.getInstance()
-        if (myId == -1 && now == null) {
-            Toast.makeText(applicationContext, "Что-то пошло не так!", Toast.LENGTH_LONG).show();
-            this.finish()
-        }
         if (now == null) {
             val myBase = FirebaseDatabase.getInstance().reference;
             myBase.child("users").child(myId.toString()).addValueEventListener(object:
@@ -130,18 +147,24 @@ class SplashScreen : AppCompatActivity() {
                 }
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val liked = ArrayList<Int>()
+                    var liked = ArrayList<String>()
                     for (i in dataSnapshot.child("likes").children)
-                        liked.add(i.value.toString().toInt())
-                    val curUser = User(myId,
-                        dataSnapshot.child("name").value.toString(),
-                        dataSnapshot.child("surname").value.toString(),
-                        dataSnapshot.child("avatar").value.toString(),
-                        dataSnapshot.child("status").value.toString(),
-                        liked)
-                    AuthUser.setInstance(curUser)
+                        liked.add(i.value.toString())
 
-                    Log.d("SETUPINFO", "User created")
+                    if (liked.size == 1 && liked[0] == "") liked = ArrayList()
+
+                    val curUser = myId?.let {
+                        User(
+                            it,
+                            dataSnapshot.child("name").value.toString(),
+                            dataSnapshot.child("avatar").value.toString(),
+                            dataSnapshot.child("status").value.toString(),
+                            liked)
+                    }
+                    if (curUser != null) {
+                        AuthUser.setInstance(curUser)
+                    }
+
                 }
             })
         }

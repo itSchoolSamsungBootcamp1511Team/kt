@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/blue"
     app:layoutDescription="@xml/login_activity_scene"
-    tools:context=".LoginActivity"
+    tools:context=".SignInActivity"
     android:id="@+id/layout">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -40,7 +40,7 @@
         android:layout_height="56dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/login_text"
-        android:hint="@string/login"
+        android:hint="@string/sign_in"
         android:maxLines="1"
         android:paddingStart="15dp"
         app:layout_constraintEnd_toEndOf="@+id/guideline3"
@@ -67,7 +67,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/green_button"
-        android:text="@string/sign_in"
+        android:text="@string/sign_up"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -79,7 +79,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/red_button"
-        android:text="@string/login"
+        android:text="@string/sign_in"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/guideline3"

@@ -1,9 +1,8 @@
 package com.example.bootcamp.dataClasses
 
 data class Post(
-        var id: Int,
-        var userId: Int,
+        var id: String,
+        var userId: String,
         var time: Long,
-        var photos: String,
-        var data: String) {
+        var text: String) {
 }
