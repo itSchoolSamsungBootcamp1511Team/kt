@@ -12,6 +12,7 @@ import com.example.bootcamp.dataClasses.AuthUser
 import com.example.bootcamp.dataClasses.User
 import com.example.bootcamp.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
@@ -46,42 +47,45 @@ class SignUpActivity : AppCompatActivity() {
             if(pass1.length >= 6) {
                 if (pass1 == pass2) {
                     if (checkEmail(email)) {
-                        if (!isExist(email, pass1)) {
-                            auth.createUserWithEmailAndPassword(email, pass1)
-                                .addOnCompleteListener(this) {
-                                    if (it.isSuccessful) {
-                                        val user = auth.currentUser?.let { it1 ->
-                                            User(it1.uid, userName, "", "", ArrayList())
-                                        }
-                                        user?.let { it1 ->
-                                            FirebaseDatabase.getInstance().reference
-                                                .child("users")
-                                                .child(it1.id).setValue(user)
-                                        }
-                                        user?.let { it1 -> AuthUser.setInstance(it1) }
-                                        Log.d("CreateUserTag", "Created")
+                        auth.createUserWithEmailAndPassword(email, pass1)
+                            .addOnCompleteListener(this) {
+                                if (it.exception is FirebaseAuthUserCollisionException) {
+                                    Toast.makeText(this, "User already exist", Toast.LENGTH_SHORT)
+                                        .show()
+                                    resetFields()
+
+                                } else if (it.isSuccessful) {
+                                    val user = auth.currentUser?.let { it1 ->
+                                        User(it1.uid, userName, "", "", ArrayList())
                                     }
+                                    user?.let { it1 ->
+                                        FirebaseDatabase.getInstance().reference
+                                            .child("users")
+                                            .child(it1.id).setValue(user)
+                                    }
+                                    user?.let { it1 -> AuthUser.setInstance(it1) }
+
+                                    binding.signInLayout.setTransition(
+                                        R.id.start_sign,
+                                        R.id.end_sign
+                                    )
+                                    binding.signInLayout.setTransitionDuration(1000)
+                                    binding.signInLayout.transitionToEnd()
+
+                                    Handler().postDelayed({
+                                        val intent = Intent(this, SplashScreen::class.java)
+                                        intent.putExtra("statusLogin", 1)
+                                        intent.putExtra("loginUser", email)
+                                        intent.putExtra("passwordUser", pass1)
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                        startActivity(intent)
+                                        overridePendingTransition(0, 0)
+                                        finish()
+                                    }, 2000)
+
+                                    Log.d("CreateUserTag", "Created")
                                 }
-
-                            binding.signInLayout.setTransition(R.id.start_sign, R.id.end_sign)
-                            binding.signInLayout.setTransitionDuration(1000)
-                            binding.signInLayout.transitionToEnd()
-
-                            Handler().postDelayed({
-                                val intent = Intent(this, SplashScreen::class.java)
-                                intent.putExtra("statusLogin", 1)
-                                intent.putExtra("loginUser", email)
-                                intent.putExtra("passwordUser", pass1)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                startActivity(intent)
-                                overridePendingTransition(0, 0)
-                                finish()
-                            }, 2000)
-
-                        } else {
-                            Toast.makeText(this, "User already exist", Toast.LENGTH_SHORT).show()
-                            resetFields()
-                        }
+                            }
                     } else {
                         Toast.makeText(
                             this,
@@ -120,4 +124,8 @@ class SignUpActivity : AppCompatActivity() {
         binding.userNameText.setText("")
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(0, 0)
+    }
 }
