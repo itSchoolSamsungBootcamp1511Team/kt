@@ -59,7 +59,7 @@ class SplashScreen : AppCompatActivity() {
 
         auth.signInWithEmailAndPassword(login, pass).addOnCompleteListener(this){
             if(!it.isSuccessful){
-                Toast.makeText(this, "User don't exist", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "User don't exist or incorrect password", Toast.LENGTH_SHORT).show()
                 login()
             } else {
                 fillInfo()

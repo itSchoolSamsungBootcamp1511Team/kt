@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import com.example.bootcamp.Utils.Companion.checkEmail
 import com.example.bootcamp.databinding.ActivitySignInBinding
 import android.app.Activity
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 
 
@@ -60,9 +61,10 @@ class SignInActivity : AppCompatActivity(){
                 }
             } else {
                 val text = "Not enter '" + when {
-                    login == "" -> R.string.email_login
-                    pass == "" -> R.string.password
-                    else -> "all fields"
+                    login == "" && pass == "" -> "all fields"
+                    login == "" -> getString(R.string.email_login)
+                    pass == "" -> getString(R.string.password)
+                    else -> "SOMETHING STRANGE!"
                 } + "'"
                 Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                 resetFields()

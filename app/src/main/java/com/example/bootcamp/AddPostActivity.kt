@@ -8,6 +8,10 @@ import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.bootcamp.dataClasses.AuthUser
+import com.example.bootcamp.dataClasses.Post
+import com.example.bootcamp.dataClasses.PostBase
+import com.example.bootcamp.dataClasses.UserBase
+import com.google.firebase.database.FirebaseDatabase
 
 
 class AddPostActivity : AppCompatActivity() {
@@ -53,6 +57,13 @@ class AddPostActivity : AppCompatActivity() {
     }
 
     private fun addPost(text: String, time: Long, userId: String){
-        // здесь надо добавить пост
+        class Postik(var text: String, var time: Long, var userUID: String) {
+
+        }
+        val postik = Postik(text, time, userId)
+        FirebaseDatabase.getInstance().reference
+            .child("posts").push().setValue(postik)
+
+
     }
 }
