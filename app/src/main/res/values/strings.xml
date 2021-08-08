@@ -21,4 +21,7 @@
     <string name="email_login">Email (Login)</string>
     <string name="user_name">User name</string>
     <string name="repeat_password">Repeat password</string>
+    <string name="create_post">Create post</string>
+    <string name="publish">Publish</string>
+    <string name="have_a_new_idea">Have a new idea?</string>
 </resources>

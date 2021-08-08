@@ -8,9 +8,24 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.bootcamp.Utils.Companion.checkEmail
 import com.example.bootcamp.databinding.ActivitySignInBinding
+import android.app.Activity
+import android.view.inputmethod.InputMethodManager
+
 
 class SignInActivity : AppCompatActivity(){
     private lateinit var binding: ActivitySignInBinding
+
+    private fun hideSoftKeyboard() {
+        val inputMethodManager: InputMethodManager = getSystemService(
+            INPUT_METHOD_SERVICE
+        ) as InputMethodManager
+        if (inputMethodManager.isAcceptingText) {
+            inputMethodManager.hideSoftInputFromWindow(
+                currentFocus!!.windowToken,
+                0
+            )
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +39,7 @@ class SignInActivity : AppCompatActivity(){
 
             if(login != "" && pass != "") {
                 if(checkEmail(login)) {
+                    hideSoftKeyboard()
                     binding.layout.setTransition(R.id.end, R.id.end_end)
                     binding.layout.setTransitionDuration(1000)
                     binding.layout.transitionToEnd()

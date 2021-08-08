@@ -5,4 +5,6 @@ data class Post(
         var userId: String,
         var time: Long,
         var text: String) {
+
+
 }
